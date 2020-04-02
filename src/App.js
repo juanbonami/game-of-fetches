@@ -53,17 +53,28 @@ export default class App extends Component {
     axios.all([requestOne, requestTwo, requestThree, requestFour, requestFive, requestSix, requestSeven])
     .then(axios.spread((...responses) => {
       
-      const responseOne = responses[0]
-      const responseTwo = responses[1]
-      const responseThree = responses[2]
-      const responseFour = responses[3]
-      const responseFive = responses[4]
-      const responseSix = responses[5]
-      const responseSeven = responses[6]
+      const responseOne = responses[0].data.born
+      const responseTwo = responses[1].data.region
+      const responseThree = responses[2].data.coatOfArms
+      const responseFour = responses[3].data.seats[1]
+      const responseFive = responses[4].data.titles[1]
+      const responseSix = responses[5].data.founder
+      const responseSixnHalf = axios.get(responseSix)
+      console.log(responseSixnHalf)
+
+      responseSixnHalf.then(res => {
+        const  finalOne = res.data.name
+        console.log(finalOne)
+
+        this.setState({
+        data: [responseOne,responseTwo,responseThree,responseFour,responseFive,finalOne,responseSeven]
+      })
+
+      })
+      const responseSeven = responses[6].data.povBooks
       console.log(responses)
-      // this.setState({
-      //   data: 
-      // })
+
+      
 
     })).catch(errors => {
       console.log('Error fetching data')
@@ -90,7 +101,20 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h1> {this.state.data} </h1>
+        <h2>Where was Margaery Tyrell born?</h2>
+        <h4> {this.state.data[0]} </h4>
+        <h2>What region is House Targaryen in?</h2>
+        <h4> {this.state.data[1]} </h4>
+        <h2>What's the coat of arms of House Lannister?</h2>
+        <h4> {this.state.data[2]} </h4>
+        <h2>What is the second seat of House Baratheon?</h2>
+        <h4> {this.state.data[3]} </h4>
+        <h2>What is Robert Baratheon's second alias?</h2>
+        <h4> {this.state.data[4]} </h4>
+        <h2>What's the name of the founder of House Stark?</h2>
+        <h4> {this.state.data[5]} </h4>
+        <h2>What are the titles of Catelyn Stark's three POV books?</h2>
+        <h4> {this.state.data[6]} </h4>
         {/* <ul>
           {this.state.data.map((recipe, id) => <li key={id}> {recipe.born} </li>)}
         </ul> */}
