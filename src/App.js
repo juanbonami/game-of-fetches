@@ -22,6 +22,7 @@
 import React, { Component } from 'react'
 import './App.css';
 import axios from 'axios'
+import Seven from './components/Seven';
 
 export default class App extends Component {
   constructor(props) {
@@ -58,21 +59,21 @@ export default class App extends Component {
       const responseThree = responses[2].data.coatOfArms
       const responseFour = responses[3].data.seats[1]
       const responseFive = responses[4].data.titles[1]
+      // first nested get request 
       const responseSix = responses[5].data.founder
       const responseSixnHalf = axios.get(responseSix)
-      console.log(responseSixnHalf)
-
+      const responseSeven = responses[6].data.povBooks
+      
       responseSixnHalf.then(res => {
         const  finalOne = res.data.name
-        console.log(finalOne)
-
+        // console.log(finalOne)
         this.setState({
         data: [responseOne,responseTwo,responseThree,responseFour,responseFive,finalOne,responseSeven]
-      })
+        })
 
       })
-      const responseSeven = responses[6].data.povBooks
-      console.log(responses)
+
+      console.log(responseSixnHalf)
 
       
 
@@ -114,10 +115,8 @@ export default class App extends Component {
         <h2>What's the name of the founder of House Stark?</h2>
         <h4> {this.state.data[5]} </h4>
         <h2>What are the titles of Catelyn Stark's three POV books?</h2>
-        <h4> {this.state.data[6]} </h4>
-        {/* <ul>
-          {this.state.data.map((recipe, id) => <li key={id}> {recipe.born} </li>)}
-        </ul> */}
+        <h4> <Seven />  </h4>
+        
       </div>
     )
   }
